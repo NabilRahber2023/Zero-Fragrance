@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Discover ZEROØ FRAGRANCE signature scents. Order directly through WhatsApp.">
+  <title>ZEROØ FRAGRANCE — More Than a Scent</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/products.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="ZERO fragrance home">
+      <span class="brand-name">ZERØ</span><span class="brand-sub">FRAGRANCE</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#products">Products</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="header-cta" href="#products">Explore scents <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">THE ART OF FRAGRANCE</p>
+        <h1>More than<br><em>a scent.</em></h1>
+        <p class="hero-text">Discover signature fragrances that leave a lasting impression.</p>
+        <a class="button button-light" href="#products">Shop the collection <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-visual" role="img" aria-label="Luxury perfume bottle against a warm dark backdrop">
+        <div class="hero-glow"></div>
+        <div class="hero-bottle">
+          <div class="bottle-cap"></div><div class="bottle-neck"></div>
+          <div class="bottle-glass"><span class="bottle-logo">ZERØ</span><span class="bottle-small">FRAGRANCE</span><span class="bottle-line"></span><span class="bottle-name">NOIR</span><span class="bottle-type">EAU DE PARFUM</span></div>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <div><span class="foot-icon">✧</span><span><strong>Signature scents</strong><small>Made to be remembered</small></span></div>
+        <div><span class="foot-icon">◇</span><span><strong>Easy ordering</strong><small>Order directly on WhatsApp</small></span></div>
+        <div><span class="foot-icon">↗</span><span><strong>Across Bangladesh</strong><small>Delivery details confirmed with you</small></span></div>
+      </div>
+    </section>
+
+    <section class="collection section-wrap" id="products">
+      <div class="section-heading">
+        <p class="eyebrow dark-eyebrow">FIND YOUR SIGNATURE</p>
+        <h2>The fragrance collection</h2>
+        <p>Choose the scent that feels like you.</p>
+      </div>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="brand-story" id="about">
+      <p class="eyebrow">THE ZEROØ SIGNATURE</p>
+      <h2>Leave a little<br><em>of yourself behind.</em></h2>
+      <p>Fragrance is personal. Find a scent that tells your story—quietly, confidently, unmistakably.</p>
+    </section>
+
+    <section class="contact-strip" id="contact">
+      <div><p class="eyebrow dark-eyebrow">NEED A HAND?</p><h2>We’re one message away.</h2><p>Choose your fragrance and send your order details to us on WhatsApp.</p></div>
+      <a class="button button-dark" id="contact-whatsapp" href="#" target="_blank" rel="noopener">Chat on WhatsApp <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#"><span class="brand-name">ZERØ</span><span class="brand-sub">FRAGRANCE</span></a>
+    <p>More than a scent.</p><small>© <span id="year"></span> ZEROØ FRAGRANCE</small>
+  </footer>
+
+  <dialog class="order-dialog" id="order-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-top">
+      <a class="brand dialog-brand" href="#"><span class="brand-name">ZERØ</span><span class="brand-sub">FRAGRANCE</span></a>
+      <button class="icon-button" id="close-dialog" type="button" aria-label="Close order form">×</button>
+    </div>
+    <div class="dialog-content">
+      <p class="eyebrow dark-eyebrow">JUST A FEW DETAILS</p>
+      <h2 id="dialog-title">Place your order</h2>
+      <p class="form-intro">Fill in your delivery details. We’ll prepare an order message for WhatsApp.</p>
+      <div class="selected-product" id="selected-product"></div>
+      <form id="order-form">
+        <label for="customer-name">Your name <span>*</span></label>
+        <input id="customer-name" name="name" autocomplete="name" required maxlength="100" placeholder="Enter your name">
+        <label for="customer-phone">Phone number <span>*</span></label>
+        <input id="customer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="25" placeholder="01XXXXXXXXX">
+        <label for="customer-address">Delivery location / address <span>*</span></label>
+        <textarea id="customer-address" name="address" autocomplete="street-address" required maxlength="500" rows="3" placeholder="Your full delivery address"></textarea>
+        <div class="quantity-line">
+          <label for="order-quantity">Quantity</label>
+          <div class="quantity-control">
+            <button type="button" id="qty-minus" aria-label="Decrease quantity">−</button>
+            <input id="order-quantity" name="quantity" type="number" min="1" max="25" value="1" required>
+            <button type="button" id="qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <div class="order-total"><span>Estimated total</span><strong id="order-total">৳1,250</strong></div>
+        <button class="button whatsapp-button" type="submit"><span aria-hidden="true">◉</span> Place Order</button>
+        <p class="privacy-note">WhatsApp will open with your order details pre-filled. You’ll need to press Send in WhatsApp to submit the message.</p>
+        <p class="form-error" id="form-error" role="alert"></p>
+      </form>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

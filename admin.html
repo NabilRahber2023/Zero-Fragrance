@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a09">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ZERØ FRAGRANCE — Admin Dashboard (Demo)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/products.js" defer></script>
+  <script src="js/admin.js" defer></script>
+</head>
+<body>
+
+  <!-- ==================== DEMO LOGIN VIEW ==================== -->
+  <div id="login-view" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="brand-badge">
+          <span class="brand-name">ZERØ</span>
+          <span class="brand-sub">FRAGRANCE</span>
+        </div>
+        <h1 class="login-title">Admin Portal</h1>
+        <p class="login-subtitle">Sign in to manage catalog, stock, and orders</p>
+      </div>
+
+      <div class="demo-banner">
+        <span>✧</span>
+        <div><strong>DEMO MODE:</strong> Changes are stored only in this browser and are not published online. Any credentials work for presentation purposes.</div>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Username</label>
+          <input class="form-input" type="text" id="login-username" value="admin" required autocomplete="username" placeholder="Enter username">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <div class="input-with-action">
+            <input class="form-input" type="password" id="login-password" value="demo123" required autocomplete="current-password" placeholder="Enter password">
+            <button type="button" class="password-toggle" id="toggle-password" aria-label="Toggle password visibility">👁</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Access Admin Panel ↗</button>
+
+        <p class="login-hint">Production security requires server-side authentication (e.g. Hostinger PHP/MySQL sessions/JWT).</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN APP LAYOUT ==================== -->
+  <div id="app-layout" class="admin-layout" style="display: none;">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <span class="brand-name" style="font-size: 1.45rem;">ZERØ</span>
+          <span class="brand-sub">FRAGRANCE</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-link active" data-nav="dashboard">
+          <span class="nav-icon">❖</span> Dashboard
+        </a>
+        <a href="#products" class="nav-link" data-nav="products">
+          <span class="nav-icon">✦</span> Product Management
+        </a>
+        <a href="index.html" target="_blank" class="nav-link">
+          <span class="nav-icon">↗</span> View Live Storefront
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="avatar-initials">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="display-user">Admin</div>
+            <div class="user-role">Administrator</div>
+          </div>
+        </div>
+        <button type="button" class="btn-secondary" id="logout-btn" style="width: 100%;">
+          <span>↪</span> Log Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Container -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button type="button" class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle navigation menu">☰</button>
+          <h2 class="topbar-title" id="page-title">Executive Dashboard</h2>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="demo-pill">
+            <span class="demo-dot"></span> Demo Environment
+          </div>
+          <button type="button" class="btn-secondary" id="btn-quick-add" style="display: none;">+ Add Product</button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+        
+        <!-- Persistent Demo Notice -->
+        <div class="notice-strip">
+          <div class="notice-text">
+            <strong>DEMO MODE —</strong> Changes are stored only in this browser and are not published online. Ready for future Hostinger PHP/MySQL API integration.
+          </div>
+          <button type="button" class="btn-secondary" id="btn-reset-demo" style="font-size: 0.78rem; padding: 0.45rem 0.85rem;">↺ Reset Demo Data</button>
+        </div>
+
+        <!-- ================= SECTION: DASHBOARD ================= -->
+        <section id="view-dashboard" class="view-section active">
+          <!-- Summary Metrics Cards -->
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Total Products</span>
+                <div class="metric-icon-box">📦</div>
+              </div>
+              <div class="metric-value" id="stat-total-products">0</div>
+              <div class="metric-sub">Across all fragrance collections</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">In-Stock Products</span>
+                <div class="metric-icon-box" style="color: var(--status-in-stock);">✓</div>
+              </div>
+              <div class="metric-value" id="stat-in-stock" style="color: var(--status-in-stock);">0</div>
+              <div class="metric-sub">> 5 bottles in inventory</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Out-of-Stock</span>
+                <div class="metric-icon-box" style="color: var(--status-out-stock);">✕</div>
+              </div>
+              <div class="metric-value" id="stat-out-stock" style="color: var(--status-out-stock);">0</div>
+              <div class="metric-sub">Unavailable for order</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-label">Total Stock Units</span>
+                <div class="metric-icon-box" style="color: var(--accent-gold);">✧</div>
+              </div>
+              <div class="metric-value" id="stat-total-units">0</div>
+              <div class="metric-sub">Total bottles in warehouse</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Insights -->
+          <div class="dashboard-grid">
+            <!-- Recently Added -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3 class="panel-title">Recently Added Fragrances</h3>
+                <a href="#products" class="panel-action-link" data-nav-target="products">View All Products →</a>
+              </div>
+              <div class="mini-product-list" id="recent-products-list">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Low Stock Warnings -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3 class="panel-title">Low Stock Alerts (1–5 pcs)</h3>
+                <span class="status-pill status-low-stock" id="low-stock-count-badge">0 items</span>
+              </div>
+              <div class="mini-product-list" id="low-stock-list">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Bar -->
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h4 style="font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 0.25rem;">Expand Your Fragrance Line</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Add new perfume creations with custom pricing, notes, and local image previews.</p>
+            </div>
+            <button type="button" class="btn-primary" id="btn-dash-add-product" style="width: auto; padding: 0.75rem 1.75rem;">+ Add New Product</button>
+          </div>
+        </section>
+
+        <!-- ================= SECTION: PRODUCTS MANAGEMENT ================= -->
+        <section id="view-products" class="view-section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Product Catalog</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Manage signature scents, inventory levels, and availability.</p>
+            </div>
+            <button type="button" class="btn-primary" id="btn-open-add-modal" style="width: auto; padding: 0.75rem 1.5rem;">+ Add New Product</button>
+          </div>
+
+          <!-- Filters & Toolbar -->
+          <div class="toolbar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" class="search-input" id="search-input" placeholder="Search by name, ID, or notes...">
+            </div>
+
+            <div class="filter-group">
+              <select class="filter-select" id="filter-category">
+                <option value="all">All Categories</option>
+                <option value="Signature Scents">Signature Scents</option>
+                <option value="Fresh & Crisp">Fresh & Crisp</option>
+                <option value="Oriental & Woody">Oriental & Woody</option>
+                <option value="Floral Luxe">Floral Luxe</option>
+              </select>
+
+              <select class="filter-select" id="filter-stock">
+                <option value="all">All Stock Status</option>
+                <option value="in_stock">In Stock (>5)</option>
+                <option value="low_stock">Low Stock (1-5)</option>
+                <option value="out_of_stock">Out of Stock (0)</option>
+              </select>
+
+              <select class="filter-select" id="sort-by">
+                <option value="date_desc">Newest First</option>
+                <option value="name_asc">Name (A–Z)</option>
+                <option value="name_desc">Name (Z–A)</option>
+                <option value="price_asc">Price (Low to High)</option>
+                <option value="price_desc">Price (High to Low)</option>
+                <option value="stock_desc">Quantity (High to Low)</option>
+                <option value="stock_asc">Quantity (Low to High)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Products Table -->
+          <div class="table-container">
+            <table class="product-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock Quantity</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== PRODUCT FORM MODAL ==================== -->
+  <div class="modal-backdrop" id="product-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-heading">Add New Product</h3>
+        <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="product-form">
+        <div class="modal-body">
+          <input type="hidden" id="form-edit-index" value="-1">
+          <input type="hidden" id="form-existing-image-id" value="">
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="prod-name">Product Name *</label>
+              <input type="text" class="form-input" id="prod-name" required placeholder="e.g. Noir, Velvet Santal">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prod-id">Unique Product ID *</label>
+              <input type="text" class="form-input" id="prod-id" required pattern="^[a-zA-Z0-9-_]+$" placeholder="e.g. noir, oud-gold">
+              <small style="font-size: 0.7rem; color: var(--text-dim);">Letters, numbers, hyphens only.</small>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="prod-price">Price in BDT (৳) *</label>
+              <input type="number" class="form-input" id="prod-price" required min="0" step="10" placeholder="1250">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prod-stock">Stock Quantity *</label>
+              <input type="number" class="form-input" id="prod-stock" required min="0" step="1" placeholder="25">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="prod-category">Category *</label>
+              <select class="form-select" id="prod-category" required>
+                <option value="Signature Scents">Signature Scents</option>
+                <option value="Fresh & Crisp">Fresh & Crisp</option>
+                <option value="Oriental & Woody">Oriental & Woody</option>
+                <option value="Floral Luxe">Floral Luxe</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prod-status">Storefront Visibility *</label>
+              <select class="form-select" id="prod-status" required>
+                <option value="active">Active (Visible)</option>
+                <option value="inactive">Inactive (Hidden from Storefront)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod-description">Short Description / Catchphrase *</label>
+            <input type="text" class="form-input" id="prod-description" required placeholder="e.g. Bold. Elegant. Timeless.">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prod-notes">Fragrance Notes / Profile</label>
+            <input type="text" class="form-input" id="prod-notes" placeholder="e.g. Cardamom, Dark Amber, Smoky Cedarwood">
+          </div>
+
+          <!-- Product Image Upload & Preview -->
+          <div class="form-group">
+            <label class="form-label">Product Image</label>
+            <div class="upload-container">
+              <div class="image-preview-box" id="image-preview-box">
+                <span style="font-size: 0.65rem; color: var(--text-dim); text-align: center;">No Image Selected</span>
+              </div>
+
+              <div class="upload-actions">
+                <input type="file" id="prod-image-file" class="file-input-hidden" accept="image/*">
+                <button type="button" class="btn-secondary" id="btn-trigger-upload">Select Image from Device</button>
+                <button type="button" class="btn-secondary" id="btn-remove-image" style="display: none; color: #ef4444; margin-left: 0.5rem;">Remove</button>
+                <div class="upload-help">JPG, PNG, or WebP. Saved locally into browser IndexedDB.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btn-cancel-modal">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: auto;">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== CONFIRMATION MODAL ==================== -->
+  <div class="modal-backdrop" id="confirm-modal">
+    <div class="modal-box" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="confirm-title">Confirm Action</h3>
+        <button type="button" class="modal-close" id="confirm-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message" style="color: var(--text-muted); font-size: 0.92rem;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btn-confirm-cancel">Cancel</button>
+        <button type="button" class="btn-danger" id="btn-confirm-action">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div class="admin-toast" id="admin-toast">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+</body>
+</html>
